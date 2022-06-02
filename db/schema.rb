@@ -13,12 +13,14 @@
 ActiveRecord::Schema.define(version: 2022_06_02_214604) do
 
   create_table "libsaml_identity_providers", force: :cascade do |t|
+    t.string "identifier", null: false
     t.string "entity_id", null: false
     t.string "sso_url", null: false
     t.text "certificate", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["entity_id"], name: "index_libsaml_identity_providers_on_entity_id", unique: true
+    t.index ["identifier"], name: "index_libsaml_identity_providers_on_identifier", unique: true
   end
 
 end

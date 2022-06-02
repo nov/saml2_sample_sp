@@ -8,6 +8,7 @@
 
 # OAuth.jp G-Suite Tenant
 Libsaml::IdentityProvider.create!(
+  identifier: :gsuite,
   entity_id: 'https://accounts.google.com/o/saml2?idpid=C0303aryf',
   sso_url: 'https://accounts.google.com/o/saml2/idp?idpid=C0303aryf',
   certificate: <<~PEM

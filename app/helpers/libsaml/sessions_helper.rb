@@ -1,0 +1,2 @@
+module Libsaml::SessionsHelper
+end
