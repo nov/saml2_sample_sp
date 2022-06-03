@@ -16,7 +16,7 @@ class Libsaml::IdentityProvider < ApplicationRecord
   end
 
   # NOTE: overwrite Saml::Provider#certificate
-  def certificate(key_name = nil, use = "signing", type = :descriptor)
+  def certificate(*args)
     OpenSSL::X509::Certificate.new read_attribute(:certificate)
   end
 end
