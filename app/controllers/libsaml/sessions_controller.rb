@@ -1,7 +1,4 @@
 class Libsaml::SessionsController < ApplicationController
-  extend Saml::Rails::ControllerHelper
-  current_store :libsaml_idps
-
   skip_before_action :verify_authenticity_token, on: :create
   before_action :require_current_provider
 
@@ -9,7 +6,7 @@ class Libsaml::SessionsController < ApplicationController
     authn_request = Saml::AuthnRequest.new(
       issuer: libsaml_session_url(params[:idp]),
       assertion_consumer_service_url: libsaml_session_url(params[:idp]),
-      destination: current_provider.sso_url
+      destination: Saml.current_provider.sso_url
     )
     session[:authn_request_id] = authn_request._id
     redirect_to Saml::Bindings::HTTPRedirect.create_url(authn_request, exclude_signature: true)
@@ -26,11 +23,7 @@ class Libsaml::SessionsController < ApplicationController
 
   private
 
-  def current_provider
-    @current_provider ||= Libsaml::IdentityProvider.find_by(identifier: params[:idp])
-  end
-
   def require_current_provider
-    Saml.current_provider = current_provider or head 404
+    Saml.current_provider = Libsaml::IdentityProvider.find_by!(identifier: params[:idp])
   end
 end
